@@ -23,7 +23,10 @@ What you need: a GitHub account and a Claude plan that includes Claude Code (for
    rm -f lessons/*.md feedback.md
    git commit -am "Start fresh" && git push
    ```
-3. **Connect GitHub to Claude** at https://claude.ai/code. Then at https://github.com/settings/installations, open the Claude app → *Configure* → *Only select repositories* and pick just your copy.
+3. **Give Claude access to your copy only.**
+   - Connect GitHub at https://claude.ai/code. If it warns that the Procol-Tech org couldn't be linked, that's expected and harmless: you aren't an org owner, so nothing was requested from the org.
+   - Install the Claude GitHub App at https://github.com/apps/claude/installations/select_target. Pick your **personal** account, choose *Only select repositories* and select just your copy. Without this step the routine can read the repo but its push fails with a 403.
+   - In the cloud environment's settings (https://claude.ai/code, environment menu), set network access to **Full**. The default allowlist blocks most docs sites, so lessons can't be fact-checked.
 4. **Create the routine** at https://claude.ai/code/routines (or ask Claude Code to `/schedule` it):
    - Repository: your copy
    - Schedule: `30 3 * * *` (UTC) = 09:00 IST. Change it to suit you.
