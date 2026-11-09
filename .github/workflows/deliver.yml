@@ -1,0 +1,86 @@
+# Turns a newly pushed lesson into a GitHub Issue so GitHub notifies the owner
+# (email + mobile push). No Claude/Anthropic calls happen here.
+#
+# The daily routine pushes to a `claude/drop-YYYY-MM-DD` branch. This job merges
+# that branch into main (so tomorrow's run sees updated history), opens the
+# issue, then deletes the branch. Direct pushes to main are handled too.
+name: deliver-lesson
+
+on:
+  push:
+    branches: [main, "claude/**"]
+    paths: ["lessons/**"]
+  workflow_dispatch:
+    inputs:
+      file:
+        description: "Lesson file to (re)send, e.g. lessons/2026-11-10-INF-004.md"
+        required: true
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: repo-writes
+  cancel-in-progress: false
+
+jobs:
+  deliver:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Find new lessons (drop branch) and merge into main
+        if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+        run: |
+          git fetch origin main
+          git diff --name-only --diff-filter=A origin/main...HEAD -- lessons/ | grep '\.md$' > "$RUNNER_TEMP/new.txt" || true
+          git checkout -B main origin/main
+          git merge --no-edit "$GITHUB_SHA"
+          for i in 1 2 3; do
+            git push origin main && break
+            git fetch origin main && git rebase origin/main
+          done
+          git push origin --delete "$GITHUB_REF_NAME" || true
+
+      - name: Find new lessons (direct push to main)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          git diff --name-only --diff-filter=A "$BEFORE" "$GITHUB_SHA" -- lessons/ | grep '\.md$' > "$RUNNER_TEMP/new.txt" || true
+
+      - name: Manual resend
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          FILE: ${{ inputs.file }}
+        run: echo "$FILE" > "$RUNNER_TEMP/new.txt"
+
+      - name: Open one issue per new lesson
+        env:
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          gh label create lesson --color 0E8A16 --description "Daily knowledge drop" --force
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            [ -f "$f" ] || { echo "missing $f"; continue; }
+            title=$(grep -m1 '^# ' "$f" | sed 's/^# //')
+            id=$(basename "$f" .md | grep -oE 'INF-[0-9]+' || echo "DROP")
+            day=$(basename "$f" | cut -c1-10)
+            {
+              cat "$f"
+              echo
+              echo "---"
+              echo "<sub>[$f](https://github.com/$GITHUB_REPOSITORY/blob/main/$f) · Comment with feedback (too easy / too deep / more like this / this is wrong because…) and it will shape future drops. Close the issue once read. cc @$OWNER</sub>"
+            } > "$RUNNER_TEMP/body.md"
+            gh issue create --title "[$id] $title · $day" --body-file "$RUNNER_TEMP/body.md" --label lesson
+          done < "$RUNNER_TEMP/new.txt"

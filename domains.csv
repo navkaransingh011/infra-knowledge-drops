@@ -1,0 +1,16 @@
+Domain,Topic_count,Priority
+Linux and operating systems,22,Very high
+Networking and protocols,32,Very high
+Cloud architecture fundamentals,20,Very high
+Security and identity,19,Very high
+Terraform and infrastructure as code,17,Very high
+Docker and containers,15,Very high
+Kubernetes,17,Very high
+Databases and storage engines,19,Very high
+Distributed systems and messaging,22,Very high
+CI/CD and deployment engineering,15,High
+Observability and monitoring,16,Very high
+Reliability and disaster recovery,12,Very high
+Scripting and automation,10,High
+Storage and object systems,8,Medium
+Cloud economics,6,Medium

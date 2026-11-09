@@ -1,0 +1,47 @@
+# Copies the owner's comments on lesson issues into feedback.md, so the daily
+# routine (which only reads the repo) can adapt future lessons.
+name: capture-feedback
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: repo-writes
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    if: >-
+      contains(github.event.issue.labels.*.name, 'lesson') &&
+      github.event.comment.user.login == github.repository_owner
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Append comment to feedback.md
+        env:
+          TITLE: ${{ github.event.issue.title }}
+          BODY: ${{ github.event.comment.body }}
+          URL: ${{ github.event.comment.html_url }}
+        run: |
+          [ -f feedback.md ] || printf '# Feedback log\n\nNewest at the bottom. Written by the capture-feedback workflow.\n' > feedback.md
+          {
+            echo
+            echo "## $(date -u +%F) — $TITLE"
+            echo "<!-- $URL -->"
+            printf '%s\n' "$BODY" | sed 's/^/> /'
+          } >> feedback.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add feedback.md
+          git commit -m "feedback: $TITLE"
+          for i in 1 2 3; do
+            git push origin HEAD:main && break
+            git pull --rebase origin main
+          done
