@@ -10,6 +10,31 @@ How it works:
 4. [deliver-lesson](.github/workflows/deliver.yml) merges it to main and opens an issue labelled `lesson`. GitHub sends the notification.
 5. Comments on a lesson issue get copied into `feedback.md` by [capture-feedback](.github/workflows/feedback.yml), and later lessons take them into account.
 
+## Want your own daily drops? (Procol folks welcome)
+
+Anyone at Procol, or anyone else, can run a copy for themselves. Everything runs on your personal accounts: no company org, no API key, no server.
+
+What you need: a GitHub account and a Claude plan that includes Claude Code (for example Pro or Max). The routine counts against your plan's usage; GitHub Actions on your personal repo uses about 5 minutes a month, which fits easily in the free quota.
+
+1. **Copy the repo.** Create a new repo under your *personal* GitHub account and push this repo's contents to it. A fork also works, but Actions start disabled on forks: enable them in the fork's Actions tab.
+2. **Reset the progress** so your copy starts from zero:
+   ```bash
+   python3 scripts/pick.py reset
+   rm -f lessons/*.md feedback.md
+   git commit -am "Start fresh" && git push
+   ```
+3. **Connect GitHub to Claude** at https://claude.ai/code. Then at https://github.com/settings/installations, open the Claude app → *Configure* → *Only select repositories* and pick just your copy.
+4. **Create the routine** at https://claude.ai/code/routines (or ask Claude Code to `/schedule` it):
+   - Repository: your copy
+   - Schedule: `30 3 * * *` (UTC) = 09:00 IST. Change it to suit you.
+   - Prompt: *"Read ROUTINE.md at the repo root and follow it exactly. Push to a branch named claude/drop-&lt;YYYY-MM-DD&gt;, never main, and do not open issues or PRs."*
+   - Connectors: none needed.
+5. **Get notified:** GitHub emails you about new issues on repos you own. Install the GitHub mobile app for push notifications.
+
+To customise it, edit `topics.csv` (add or remove topics), `domains.csv` (domain priorities) or `LESSON_FORMAT.md` (lesson style). To tell your drops what you think, comment on a lesson issue; the next lessons read those comments.
+
+If you keep your copy public, your lessons and feedback comments are public too. Make it private if you'd rather they weren't.
+
 Files:
 - `topics.csv`: topic bank and status. Add rows to extend it.
 - `domains.csv`: domain priorities used for weighting.

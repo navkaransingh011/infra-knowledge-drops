@@ -136,9 +136,22 @@ def record(a, day):
     print(t["ID"])
 
 
+def reset():
+    """Start fresh: clear delivery state, drop discovered topics, wipe history."""
+    topics = read_csv(TOPICS)
+    fields = list(topics[0].keys())
+    kept = [t for t in topics if t["Status"] != "Discovered"]
+    for t in kept:
+        t["Status"], t["Last delivered"], t["Feedback"] = "Unseen", "", ""
+    write_csv(TOPICS, kept, fields)
+    write_csv(HISTORY, [], ["date", "id", "domain", "microtopic", "mode", "lesson_file"])
+    print(f"reset {len(kept)} topics; history cleared")
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
+    sub.add_parser("reset")
     p = sub.add_parser("pick")
     p.add_argument("--date")
     r = sub.add_parser("record")
@@ -151,6 +164,8 @@ def main():
     r.add_argument("--objective")
     r.add_argument("--file", required=True)
     a = ap.parse_args()
+    if a.cmd == "reset":
+        return reset()
     day = date.fromisoformat(a.date) if a.date else today_ist()
     if a.cmd == "pick":
         sys.exit(pick(day))
