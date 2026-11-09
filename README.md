@@ -8,7 +8,8 @@ How it works:
 2. [`scripts/pick.py`](scripts/pick.py) picks the topic from [topics.csv](topics.csv) using [RULES.md](RULES.md).
 3. The routine writes `lessons/<date>-<ID>.md` in the [LESSON_FORMAT.md](LESSON_FORMAT.md) structure and pushes a `claude/drop-<date>` branch.
 4. [deliver-lesson](.github/workflows/deliver.yml) merges it to main and opens an issue labelled `lesson`. GitHub sends the notification.
-5. Comments on a lesson issue get copied into `feedback.md` by [capture-feedback](.github/workflows/feedback.yml), and later lessons take them into account.
+5. **Notes:** reply to a lesson email (or comment on the issue) and [capture-notes](.github/workflows/feedback.yml) files it into `notes/<ISO week>.md`, grouped by lesson. Paragraphs that start with `feedback:` go to `feedback.md` instead, and later lessons take them into account.
+6. **Weekly review:** every Sunday at 10:00 IST a second routine follows [REVIEW.md](REVIEW.md) and sends `reviews/<week>.md`: recall questions on the week's lessons, revisit questions on lessons from about 1 and 3 months ago, your notes for the week with answers to any questions in them, one hands-on exercise, and the answers at the bottom. Replies to the review are saved to your notes too.
 
 ## For the Procol team: run your own daily drops
 
@@ -20,7 +21,7 @@ What you need: a GitHub account and a Claude plan that includes Claude Code (for
 2. **Reset the progress** so your copy starts from zero:
    ```bash
    python3 scripts/pick.py reset
-   rm -f lessons/*.md feedback.md
+   rm -rf lessons/*.md notes reviews feedback.md
    git commit -am "Start fresh" && git push
    ```
 3. **Give Claude access to your copy only.**
@@ -32,6 +33,7 @@ What you need: a GitHub account and a Claude plan that includes Claude Code (for
    - Schedule: `30 3 * * *` (UTC) = 09:00 IST. Change it to suit you.
    - Prompt: *"Read ROUTINE.md at the repo root and follow it exactly. Push to a branch named claude/drop-&lt;YYYY-MM-DD&gt;, never main, and do not open issues or PRs."*
    - Connectors: none needed.
+   - Optional weekly review: a second routine with schedule `30 4 * * 0` (Sunday 10:00 IST) and the prompt *"Read REVIEW.md at the repo root and follow it exactly. Push to a branch named claude/review-&lt;week&gt;, never main, and do not open issues or PRs."*
 5. **Get notified:** GitHub emails you about new issues on repos you own. Install the GitHub mobile app for push notifications.
 
 To customise it, edit `topics.csv` (add or remove topics), `domains.csv` (domain priorities) or `LESSON_FORMAT.md` (lesson style). To tell your drops what you think, comment on a lesson issue; the next lessons read those comments.
@@ -43,3 +45,5 @@ Files:
 - `domains.csv`: domain priorities used for weighting.
 - `history.csv`: one row per delivered lesson.
 - `lessons/`: archive of every lesson.
+- `notes/`: your own notes, one file per ISO week.
+- `reviews/`: weekly reviews.

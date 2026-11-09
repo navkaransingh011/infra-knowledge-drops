@@ -149,10 +149,41 @@ def reset():
     print(f"reset {len(kept)} topics; history cleared")
 
 
+def week(day):
+    """Context for the weekly review: this ISO week's lessons, notes, and older
+    lessons due for spaced-repetition revisits (~3-5 weeks and ~3 months back)."""
+    y, w, _ = day.isocalendar()
+    label = f"{y}-W{w:02d}"
+    monday = day - timedelta(days=day.isoweekday() - 1)
+    history = read_csv(HISTORY)
+    this_week = [h for h in history if monday <= date.fromisoformat(h["date"]) <= day]
+    rng = random.Random(label)
+    revisit = []
+    for lo, hi in ((21, 35), (80, 100)):
+        pool = [h for h in history if lo <= (day - date.fromisoformat(h["date"])).days <= hi]
+        if pool:
+            revisit.append(rng.choice(pool))
+    review_file = f"reviews/{label}.md"
+    notes_file = f"notes/{label}.md"
+    out = {
+        "mode": "already_reviewed" if (ROOT / review_file).exists() else ("empty_week" if not this_week else "review"),
+        "week": label,
+        "review_file": review_file,
+        "notes_file": notes_file,
+        "notes_exist": (ROOT / notes_file).exists(),
+        "lessons": this_week,
+        "revisit": revisit,
+    }
+    print(json.dumps(out, indent=2))
+    return 3 if out["mode"] != "review" else 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("reset")
+    wk = sub.add_parser("week")
+    wk.add_argument("--date")
     p = sub.add_parser("pick")
     p.add_argument("--date")
     r = sub.add_parser("record")
@@ -170,6 +201,8 @@ def main():
     day = date.fromisoformat(a.date) if a.date else today_ist()
     if a.cmd == "pick":
         sys.exit(pick(day))
+    if a.cmd == "week":
+        sys.exit(week(day))
     record(a, day)
 
 

@@ -1,6 +1,9 @@
-# Copies the owner's comments on lesson issues into feedback.md, so the daily
-# routine (which only reads the repo) can adapt future lessons.
-name: capture-feedback
+# Files the owner's comments on lesson and review issues into the repo:
+#   - notes/<ISO week>.md : personal notes (default), shown in the weekly review
+#   - feedback.md         : paragraphs starting with "feedback:" (shapes future lessons)
+# Replying to a GitHub notification email creates a comment, so email replies
+# land here too.
+name: capture-notes
 
 on:
   issue_comment:
@@ -16,7 +19,8 @@ concurrency:
 jobs:
   capture:
     if: >-
-      contains(github.event.issue.labels.*.name, 'lesson') &&
+      (contains(github.event.issue.labels.*.name, 'lesson') ||
+       contains(github.event.issue.labels.*.name, 'review')) &&
       github.event.comment.user.login == github.repository_owner
     runs-on: ubuntu-latest
     steps:
@@ -24,23 +28,23 @@ jobs:
         with:
           ref: main
 
-      - name: Append comment to feedback.md
+      - name: File the comment
         env:
           TITLE: ${{ github.event.issue.title }}
           BODY: ${{ github.event.comment.body }}
           URL: ${{ github.event.comment.html_url }}
+          CREATED: ${{ github.event.comment.created_at }}
+        run: python3 scripts/capture.py
+
+      - name: Commit and push
+        env:
+          TITLE: ${{ github.event.issue.title }}
         run: |
-          [ -f feedback.md ] || printf '# Feedback log\n\nNewest at the bottom. Written by the capture-feedback workflow.\n' > feedback.md
-          {
-            echo
-            echo "## $(date -u +%F) — $TITLE"
-            echo "<!-- $URL -->"
-            printf '%s\n' "$BODY" | sed 's/^/> /'
-          } >> feedback.md
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add feedback.md
-          git commit -m "feedback: $TITLE"
+          git add -A
+          git diff --cached --quiet && { echo "nothing to commit"; exit 0; }
+          git commit -m "notes: $TITLE"
           for i in 1 2 3; do
             git push origin HEAD:main && break
             git pull --rebase origin main

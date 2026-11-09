@@ -1,4 +1,4 @@
-# Turns a newly pushed lesson into a GitHub Issue so GitHub notifies the owner
+# Turns a newly pushed lesson or weekly review into a GitHub Issue so GitHub notifies the owner
 # (email + mobile push). No Claude/Anthropic calls happen here.
 #
 # The daily routine pushes to a `claude/drop-YYYY-MM-DD` branch. This job merges
@@ -9,7 +9,7 @@ name: deliver-lesson
 on:
   push:
     branches: [main, "claude/**"]
-    paths: ["lessons/**"]
+    paths: ["lessons/**", "reviews/**"]
   workflow_dispatch:
     inputs:
       file:
@@ -43,7 +43,7 @@ jobs:
         if: github.event_name == 'push' && github.ref != 'refs/heads/main'
         run: |
           git fetch origin main
-          git diff --name-only --diff-filter=A origin/main...HEAD -- lessons/ | grep '\.md$' > "$RUNNER_TEMP/new.txt" || true
+          git diff --name-only --diff-filter=A origin/main...HEAD -- lessons/ reviews/ | grep '\.md$' > "$RUNNER_TEMP/new.txt" || true
           git checkout -B main origin/main
           git merge --no-edit "$GITHUB_SHA"
           for i in 1 2 3; do
@@ -57,7 +57,7 @@ jobs:
         env:
           BEFORE: ${{ github.event.before }}
         run: |
-          git diff --name-only --diff-filter=A "$BEFORE" "$GITHUB_SHA" -- lessons/ | grep '\.md$' > "$RUNNER_TEMP/new.txt" || true
+          git diff --name-only --diff-filter=A "$BEFORE" "$GITHUB_SHA" -- lessons/ reviews/ | grep '\.md$' > "$RUNNER_TEMP/new.txt" || true
 
       - name: Manual resend
         if: github.event_name == 'workflow_dispatch'
@@ -65,22 +65,35 @@ jobs:
           FILE: ${{ inputs.file }}
         run: echo "$FILE" > "$RUNNER_TEMP/new.txt"
 
-      - name: Open one issue per new lesson
+      - name: Open one issue per new lesson or review
         env:
           OWNER: ${{ github.repository_owner }}
         run: |
           gh label create lesson --color 0E8A16 --description "Daily knowledge drop" --force
+          gh label create review --color 5319E7 --description "Weekly review" --force
           while IFS= read -r f; do
             [ -z "$f" ] && continue
             [ -f "$f" ] || { echo "missing $f"; continue; }
-            title=$(grep -m1 '^# ' "$f" | sed 's/^# //')
-            id=$(basename "$f" .md | grep -oE 'INF-[0-9]+' || echo "DROP")
-            day=$(basename "$f" | cut -c1-10)
+            heading=$(grep -m1 '^# ' "$f" | sed 's/^# //')
+            case "$f" in
+              reviews/*)
+                label=review
+                title="$heading"
+                hint="Reply to this email with your answers or notes: they are saved to your weekly notes file."
+                ;;
+              *)
+                label=lesson
+                id=$(basename "$f" .md | grep -oE 'INF-[0-9]+' || echo "DROP")
+                day=$(basename "$f" | cut -c1-10)
+                title="[$id] $heading · $day"
+                hint="Reply to this email with notes, questions or aha moments: they are saved to your weekly notes and shown in Sunday's review. Start a paragraph with feedback: to steer future lessons instead."
+                ;;
+            esac
             {
               cat "$f"
               echo
               echo "---"
-              echo "<sub>[$f](https://github.com/$GITHUB_REPOSITORY/blob/main/$f) · Comment with feedback (too easy / too deep / more like this / this is wrong because…) and it will shape future drops. Close the issue once read. cc @$OWNER</sub>"
+              echo "<sub>$hint [$f](https://github.com/$GITHUB_REPOSITORY/blob/main/$f) · cc @$OWNER</sub>"
             } > "$RUNNER_TEMP/body.md"
-            gh issue create --title "[$id] $title · $day" --body-file "$RUNNER_TEMP/body.md" --label lesson
+            gh issue create --title "$title" --body-file "$RUNNER_TEMP/body.md" --label "$label"
           done < "$RUNNER_TEMP/new.txt"
