@@ -25,9 +25,26 @@ def week_label(d):
     return f"{y}-W{w:02d}"
 
 
+def strip_email_reply(body):
+    """Keep only what was typed: drop the quoted original that mail clients
+    append ("On <date>, <sender> wrote:" + "> ..." lines) and phone signatures."""
+    lines = body.split("\n")
+    for i, line in enumerate(lines):
+        if re.match(r"^\s*On .+", line) and "wrote:" in " ".join(lines[i:i + 3]):
+            lines = lines[:i]
+            break
+    lines = [l for l in lines if not l.lstrip().startswith(">")]
+    text = "\n".join(lines)
+    text = re.split(r"\n-- \n|\nSent from my \w+", text)[0]
+    return text.strip()
+
+
 def main():
     title = os.environ["TITLE"].strip()
-    body = os.environ["BODY"].replace("\r\n", "\n").strip()
+    body = strip_email_reply(os.environ["BODY"].replace("\r\n", "\n"))
+    if not body:
+        print("empty after stripping quoted reply; nothing to file")
+        return
     url = os.environ.get("URL", "")
     created = datetime.fromisoformat(os.environ["CREATED"].replace("Z", "+00:00")).astimezone(IST)
 
