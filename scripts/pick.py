@@ -5,9 +5,9 @@ Selection rules come from RULES.md. All randomness is seeded by the IST date,
 so re-running on the same day gives the same pick.
 
   python3 scripts/pick.py pick              -> prints JSON for today's topic
-  python3 scripts/pick.py record --id INF-004 --file lessons/....md
-  python3 scripts/pick.py record --new --domain D --parent P --microtopic M \
-        --objective O --file lessons/....md
+  python3 scripts/pick.py record --id INF-004
+  python3 scripts/pick.py record --new --domain D --parent P --microtopic M --objective O
+  (both print "<ID> <lesson path>"; write the lesson to that path)
 """
 import argparse
 import csv
@@ -127,13 +127,14 @@ def record(a, day):
         t["Status"] = "Delivered"
     t["Last delivered"] = day.isoformat()
     write_csv(TOPICS, topics, fields)
+    lesson_file = f"lessons/{day.isoformat()}-{t['ID']}.md"
 
     hist = read_csv(HISTORY)
     hist.append({"date": day.isoformat(), "id": t["ID"], "domain": t["Domain"],
                  "microtopic": t["Microtopic"], "mode": "discovery" if a.new else "bank",
-                 "lesson_file": a.file})
+                 "lesson_file": lesson_file})
     write_csv(HISTORY, hist, ["date", "id", "domain", "microtopic", "mode", "lesson_file"])
-    print(t["ID"])
+    print(t["ID"], lesson_file)
 
 
 def reset():
@@ -162,7 +163,7 @@ def main():
     r.add_argument("--parent")
     r.add_argument("--microtopic")
     r.add_argument("--objective")
-    r.add_argument("--file", required=True)
+    r.add_argument("--file", help="ignored; the path is always lessons/<date>-<ID>.md")
     a = ap.parse_args()
     if a.cmd == "reset":
         return reset()

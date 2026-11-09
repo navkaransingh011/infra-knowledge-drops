@@ -33,17 +33,12 @@ turns it into an issue that notifies the reader. Do not open issues or PRs.
    Cite 2–4 of the sources you actually used. Run commands in the sandbox when that
    verifies a claim cheaply.
 
-4. **Write the lesson** to `lessons/<YYYY-MM-DD>-<ID>.md` using the IST date from the picker
-   output (`date`).
-   - Bank topic: use its ID, e.g. `lessons/2026-11-10-INF-004.md`.
-   - Discovery topic: first record it to get an ID (step 5), then name the file with that ID.
-   The first line must be `# <Microtopic>`.
+4. **Record it** to get the ID and file path:
+   - Bank: `python3 scripts/pick.py record --id <ID>`
+   - Discovery: `python3 scripts/pick.py record --new --domain "<domain>" --parent "<parent topic>" --microtopic "<microtopic>" --objective "<one-sentence learning objective>"`
+   Both print `<ID> <lesson path>`, for example `INF-004 lessons/2026-11-10-INF-004.md`.
 
-5. **Record it.**
-   - Bank: `python3 scripts/pick.py record --id <ID> --file lessons/<file>.md`
-   - Discovery: `python3 scripts/pick.py record --new --domain "<domain>" --parent "<parent topic>" --microtopic "<microtopic>" --objective "<one-sentence learning objective>" --file lessons/<file>.md`
-     (this prints the new ID; use it in the filename and the lesson header).
-   For discovery, run `record` first, then write the file under the printed ID.
+5. **Write the lesson** to exactly that path. The first line must be `# <Microtopic>`.
 
 6. **Commit and push.**
    ```bash
