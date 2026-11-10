@@ -1,5 +1,5 @@
 ID,Domain,Parent topic,Microtopic,Importance,Difficulty,Learning objective,Prerequisites,Status,Last delivered,Feedback
-INF-001,Linux and operating systems,Processes and signals,"Process lifecycle, PID and PPID",Very high,1,"Trace how a process is created, identified, and related to its parent.",,Unseen,,
+INF-001,Linux and operating systems,Processes and signals,"Process lifecycle, PID and PPID",Very high,1,"Trace how a process is created, identified, and related to its parent.",,Delivered,2026-11-10,
 INF-002,Linux and operating systems,Processes and signals,Zombie and orphan processes,Very high,2,Distinguish zombies from orphans and identify what actually cleans them up.,"Process lifecycle, PID and PPID",Unseen,,
 INF-003,Linux and operating systems,Processes and signals,SIGTERM vs SIGKILL,Very high,1,Explain graceful termination versus forced termination and the operational consequences.,"Process lifecycle, PID and PPID",Unseen,,
 INF-004,Linux and operating systems,Processes and signals,PID 1 and signal handling in containers,Very high,3,Explain why PID 1 behaves differently and why containers may fail to stop gracefully.,SIGTERM vs SIGKILL,Unseen,,
