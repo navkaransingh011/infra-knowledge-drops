@@ -193,7 +193,7 @@ INF-191,CI/CD and deployment engineering,Git and release operations,Git revert v
 INF-192,CI/CD and deployment engineering,Git and release operations,git clean and destructive deployment scripts,High,2,Understand untracked/ignored file removal and deployment-data risks.,,Unseen,,
 INF-193,CI/CD and deployment engineering,Git and release operations,Release versioning and compatibility,High,2,"Coordinate application, API, and schema versions across deployments.",,Unseen,,
 INF-194,CI/CD and deployment engineering,Git and release operations,Deployment race conditions and concurrency controls,High,3,Prevent overlapping deployments from corrupting shared environments.,,Unseen,,
-INF-195,CI/CD and deployment engineering,Git and release operations,Feature flags as migration and rollback controls,High,2,"Use flags safely with defaults, cleanup, and compatibility considerations.",Rolling vs blue-green vs canary deployments,Unseen,,
+INF-195,CI/CD and deployment engineering,Git and release operations,Feature flags as migration and rollback controls,High,2,"Use flags safely with defaults, cleanup, and compatibility considerations.",Rolling vs blue-green vs canary deployments,Delivered,2026-11-11,
 INF-196,Observability and monitoring,Signals and metrics,Metrics vs logs vs traces,Very high,1,Choose the signal that best answers a diagnostic question.,,Unseen,,
 INF-197,Observability and monitoring,Signals and metrics,RED and USE monitoring methods,Very high,2,Apply request-focused and resource-focused monitoring systematically.,Metrics vs logs vs traces,Unseen,,
 INF-198,Observability and monitoring,Signals and metrics,"Counters, gauges and histograms",Very high,2,Understand metric types and how aggregation changes their meaning.,,Unseen,,

@@ -1,3 +1,4 @@
 date,id,domain,microtopic,mode,lesson_file
 2026-11-09,INF-251,Distributed systems and messaging,Kafka consumer group rebalances: eager vs cooperative,discovery,lessons/2026-11-09-INF-251.md
 2026-11-10,INF-001,Linux and operating systems,"Process lifecycle, PID and PPID",bank,lessons/2026-11-10-INF-001.md
+2026-11-11,INF-195,CI/CD and deployment engineering,Feature flags as migration and rollback controls,bank,lessons/2026-11-11-INF-195.md
