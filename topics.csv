@@ -110,7 +110,7 @@ INF-108,Terraform and infrastructure as code,Configuration and composition,Terra
 INF-109,Docker and containers,Container fundamentals,Container vs virtual machine isolation,Very high,1,Explain shared host kernel versus separate guest operating systems.,,Unseen,,
 INF-110,Docker and containers,Container fundamentals,Docker image layers and copy-on-write,Very high,2,"Understand layer reuse, image size, and how build changes affect cache.",,Unseen,,
 INF-111,Docker and containers,Container fundamentals,Multi-stage builds and build cache,Very high,2,Create smaller production images and avoid invalidating cache unnecessarily.,Docker image layers and copy-on-write,Unseen,,
-INF-112,Docker and containers,Container fundamentals,Container PID 1 and graceful shutdown,Very high,3,Understand signal forwarding and why shell wrappers can interfere with shutdown.,PID 1 and signal handling in containers,Unseen,,
+INF-112,Docker and containers,Container fundamentals,Container PID 1 and graceful shutdown,Very high,3,Understand signal forwarding and why shell wrappers can interfere with shutdown.,PID 1 and signal handling in containers,Delivered,2026-11-13,
 INF-113,Docker and containers,Container fundamentals,Container health checks vs process state,Very high,2,Explain why a running process may not mean the service is healthy.,,Unseen,,
 INF-114,Docker and containers,Networking and storage,Docker bridge networking and port publishing,High,2,Trace container-to-container and host-to-container packet paths.,,Unseen,,
 INF-115,Docker and containers,Networking and storage,Docker embedded DNS and service discovery,High,2,Understand name resolution between containers on user-defined networks.,Docker bridge networking and port publishing,Unseen,,
