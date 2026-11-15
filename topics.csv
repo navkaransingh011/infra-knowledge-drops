@@ -128,7 +128,7 @@ INF-126,Kubernetes,Workload lifecycle and scheduling,Requests vs limits and CPU 
 INF-127,Kubernetes,Workload lifecycle and scheduling,Memory limits and OOMKilled,Very high,2,Explain cgroup memory enforcement and how Kubernetes reports container OOMs.,Requests vs limits and CPU throttling,Unseen,,
 INF-128,Kubernetes,Workload lifecycle and scheduling,Pending pods and scheduler diagnosis,Very high,3,"Investigate resource shortage, taints, affinity, PVCs, and admission constraints.","Deployment, ReplicaSet and reconciliation loop",Unseen,,
 INF-129,Kubernetes,Workload lifecycle and scheduling,"Taints, tolerations and node affinity",Very high,3,Control workload placement and understand why pods remain unscheduled.,Pending pods and scheduler diagnosis,Unseen,,
-INF-130,Kubernetes,Probes and traffic,Readiness vs liveness vs startup probes,High,2,Choose probes that avoid sending traffic too early or restarting slow-starting apps.,,Unseen,,
+INF-130,Kubernetes,Probes and traffic,Readiness vs liveness vs startup probes,High,2,Choose probes that avoid sending traffic too early or restarting slow-starting apps.,,Delivered,2026-11-15,
 INF-131,Kubernetes,Probes and traffic,Service selectors and EndpointSlices,High,2,Understand how labels connect Services to ready pod endpoints.,,Unseen,,
 INF-132,Kubernetes,Probes and traffic,"ClusterIP, NodePort and LoadBalancer",High,1,Compare service exposure models and traffic paths.,Service selectors and EndpointSlices,Unseen,,
 INF-133,Kubernetes,Probes and traffic,Ingress and Gateway API request routing,High,2,Understand host/path routing and the role of controllers.,"ClusterIP, NodePort and LoadBalancer",Unseen,,
