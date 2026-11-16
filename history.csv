@@ -5,3 +5,4 @@ date,id,domain,microtopic,mode,lesson_file
 2026-11-13,INF-112,Docker and containers,Container PID 1 and graceful shutdown,bank,lessons/2026-11-13-INF-112.md
 2026-11-14,INF-042,Networking and protocols,HTTP request lifecycle and status codes,bank,lessons/2026-11-14-INF-042.md
 2026-11-15,INF-130,Kubernetes,Readiness vs liveness vs startup probes,bank,lessons/2026-11-15-INF-130.md
+2026-11-16,INF-090,Security and identity,Software supply-chain signing and provenance,bank,lessons/2026-11-16-INF-090.md
