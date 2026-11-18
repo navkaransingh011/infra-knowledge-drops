@@ -7,3 +7,4 @@ date,id,domain,microtopic,mode,lesson_file
 2026-11-15,INF-130,Kubernetes,Readiness vs liveness vs startup probes,bank,lessons/2026-11-15-INF-130.md
 2026-11-16,INF-090,Security and identity,Software supply-chain signing and provenance,bank,lessons/2026-11-16-INF-090.md
 2026-11-17,INF-252,Networking and protocols,Nagle's algorithm and delayed ACK interaction,discovery,lessons/2026-11-17-INF-252.md
+2026-11-18,INF-092,Terraform and infrastructure as code,Terraform state: purpose and resource mapping,bank,lessons/2026-11-18-INF-092.md
