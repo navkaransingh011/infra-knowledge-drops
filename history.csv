@@ -9,3 +9,4 @@ date,id,domain,microtopic,mode,lesson_file
 2026-11-17,INF-252,Networking and protocols,Nagle's algorithm and delayed ACK interaction,discovery,lessons/2026-11-17-INF-252.md
 2026-11-18,INF-092,Terraform and infrastructure as code,Terraform state: purpose and resource mapping,bank,lessons/2026-11-18-INF-092.md
 2026-11-19,INF-160,Distributed systems and messaging,"At-most-once, at-least-once and effectively-once delivery",bank,lessons/2026-11-19-INF-160.md
+2026-11-20,INF-087,Security and identity,Encryption at rest vs in transit,bank,lessons/2026-11-20-INF-087.md
