@@ -132,7 +132,7 @@ INF-130,Kubernetes,Probes and traffic,Readiness vs liveness vs startup probes,Hi
 INF-131,Kubernetes,Probes and traffic,Service selectors and EndpointSlices,High,2,Understand how labels connect Services to ready pod endpoints.,,Unseen,,
 INF-132,Kubernetes,Probes and traffic,"ClusterIP, NodePort and LoadBalancer",High,1,Compare service exposure models and traffic paths.,Service selectors and EndpointSlices,Unseen,,
 INF-133,Kubernetes,Probes and traffic,Ingress and Gateway API request routing,High,2,Understand host/path routing and the role of controllers.,"ClusterIP, NodePort and LoadBalancer",Unseen,,
-INF-134,Kubernetes,Probes and traffic,Kubernetes DNS and service discovery,High,2,Trace service-name resolution and common CoreDNS failure modes.,Service selectors and EndpointSlices,Unseen,,
+INF-134,Kubernetes,Probes and traffic,Kubernetes DNS and service discovery,High,2,Trace service-name resolution and common CoreDNS failure modes.,Service selectors and EndpointSlices,Delivered,2026-11-22,
 INF-135,Kubernetes,"Configuration, security and operations",ConfigMap and Secret update behavior,High,2,Understand environment-variable versus mounted-volume update semantics.,,Unseen,,
 INF-136,Kubernetes,"Configuration, security and operations",Kubernetes RBAC and service accounts,High,2,Scope API permissions and distinguish pod identity from human identity.,Human identities vs workload identities,Unseen,,
 INF-137,Kubernetes,"Configuration, security and operations","PersistentVolume, PVC and StorageClass",High,2,"Understand dynamic provisioning, binding, and storage lifecycle.",Object vs block vs file storage,Unseen,,

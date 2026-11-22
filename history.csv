@@ -11,3 +11,4 @@ date,id,domain,microtopic,mode,lesson_file
 2026-11-19,INF-160,Distributed systems and messaging,"At-most-once, at-least-once and effectively-once delivery",bank,lessons/2026-11-19-INF-160.md
 2026-11-20,INF-087,Security and identity,Encryption at rest vs in transit,bank,lessons/2026-11-20-INF-087.md
 2026-11-21,INF-253,Cloud architecture fundamentals,Instance metadata service and the container hop limit,discovery,lessons/2026-11-21-INF-253.md
+2026-11-22,INF-134,Kubernetes,Kubernetes DNS and service discovery,bank,lessons/2026-11-22-INF-134.md
