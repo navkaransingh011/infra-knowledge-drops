@@ -33,7 +33,7 @@ INF-031,Networking and protocols,TCP and UDP,TCP retransmissions and exponential
 INF-032,Networking and protocols,TCP and UDP,TCP congestion control basics,Very high,3,Explain how TCP adapts sending rate to network congestion.,TCP retransmissions and exponential backoff,Unseen,,
 INF-033,Networking and protocols,TCP and UDP,Ephemeral ports and port exhaustion,Very high,3,Understand client-side source ports and diagnose outbound connection failures.,TCP connections and sockets,Unseen,,
 INF-034,Networking and protocols,TCP and UDP,UDP tradeoffs and common uses,Very high,1,Compare UDP with TCP and understand what reliability the application must provide.,,Unseen,,
-INF-035,Networking and protocols,TCP and UDP,TCP keepalive vs application keepalive,Very high,2,Distinguish kernel-level dead-peer detection from protocol-level heartbeats.,TCP connections and sockets,Unseen,,
+INF-035,Networking and protocols,TCP and UDP,TCP keepalive vs application keepalive,Very high,2,Distinguish kernel-level dead-peer detection from protocol-level heartbeats.,TCP connections and sockets,Delivered,2026-11-23,
 INF-036,Networking and protocols,DNS,Recursive vs authoritative DNS,Very high,1,Trace a DNS lookup from stub resolver through recursive and authoritative servers.,,Unseen,,
 INF-037,Networking and protocols,DNS,"DNS record types: A, AAAA, CNAME, MX, TXT, SRV",Very high,1,Choose appropriate records and understand their operational purpose.,,Unseen,,
 INF-038,Networking and protocols,DNS,DNS TTL and caching behavior,Very high,2,Explain resolver caching and why changing a record does not instantly update every client.,Recursive vs authoritative DNS,Unseen,,
