@@ -13,3 +13,4 @@ date,id,domain,microtopic,mode,lesson_file
 2026-11-21,INF-253,Cloud architecture fundamentals,Instance metadata service and the container hop limit,discovery,lessons/2026-11-21-INF-253.md
 2026-11-22,INF-134,Kubernetes,Kubernetes DNS and service discovery,bank,lessons/2026-11-22-INF-134.md
 2026-11-23,INF-035,Networking and protocols,TCP keepalive vs application keepalive,bank,lessons/2026-11-23-INF-035.md
+2026-11-24,INF-245,Cloud economics,Idle resources and orphaned infrastructure,bank,lessons/2026-11-24-INF-245.md
