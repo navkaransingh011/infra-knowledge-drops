@@ -15,3 +15,4 @@ date,id,domain,microtopic,mode,lesson_file
 2026-11-23,INF-035,Networking and protocols,TCP keepalive vs application keepalive,bank,lessons/2026-11-23-INF-035.md
 2026-11-24,INF-245,Cloud economics,Idle resources and orphaned infrastructure,bank,lessons/2026-11-24-INF-245.md
 2026-11-25,INF-009,Linux and operating systems,Linux page cache and available memory,bank,lessons/2026-11-25-INF-009.md
+2026-11-26,INF-254,Databases and storage engines,Transaction ID wraparound and freezing,discovery,lessons/2026-11-26-INF-254.md
