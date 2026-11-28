@@ -17,3 +17,4 @@ date,id,domain,microtopic,mode,lesson_file
 2026-11-25,INF-009,Linux and operating systems,Linux page cache and available memory,bank,lessons/2026-11-25-INF-009.md
 2026-11-26,INF-254,Databases and storage engines,Transaction ID wraparound and freezing,discovery,lessons/2026-11-26-INF-254.md
 2026-11-27,INF-004,Linux and operating systems,PID 1 and signal handling in containers,bank,lessons/2026-11-27-INF-004.md
+2026-11-28,INF-109,Docker and containers,Container vs virtual machine isolation,bank,lessons/2026-11-28-INF-109.md
